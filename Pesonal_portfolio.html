@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arivaatral</title>
+
+    <style>
+        /* Reset and global styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            /* Adjust this value as needed */
+            margin: 0 auto;
+        }
+
+        .skills-grid {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+
+        .project-list {
+            flex-direction: column;
+            /* Stacks projects vertically on smaller screens */
+        }
+
+        .education-cards,
+        .project-list {
+            flex-direction: column;
+        }
+
+
+        /* Navigation Bar */
+        nav {
+            position: sticky;
+            top: 0;
+            background-color: #333;
+            z-index: 1000;
+            width: 100%;
+            padding: 10px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        nav.scrolled {
+            background-color: #222;
+        }
+
+        .nav-links {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .nav-links li {
+            margin: 0 15px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            padding: 10px 20px;
+            transition: color 0.3s ease, transform 0.3s ease;
+            display: inline-block;
+        }
+
+        .nav-links a:hover {
+            color: #ddd;
+            transform: scale(1.2);
+        }
+
+        /* Header Styling */
+        header {
+            text-align: center;
+            background-color: #333;
+            color: white;
+            padding: 50px 0;
+            animation: fadeIn 2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        header .profile-pic img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            border: 5px solid #fff;
+            transition: transform 0.3s ease;
+        }
+
+        header .profile-pic img:hover {
+            transform: scale(1.1);
+        }
+
+        header .intro h1 {
+            font-size: 2.5rem;
+            animation: slideInFromTop 1s ease-out;
+        }
+
+        @keyframes slideInFromTop {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        header .social-links img {
+            width: 30px;
+            height: 30px;
+            margin: 0 10px;
+            vertical-align: middle;
+            transition: transform 0.3s ease;
+        }
+
+        header .social-links img:hover {
+            transform: scale(1.2);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        body {
+            font-size: 16px;
+            /* Base font size */
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            /* Scales with base font size */
+        }
+
+        p {
+            font-size: 1rem;
+        }
+
+
+        /* About Section Styling */
+        #about {
+            padding: 60px 20px;
+            background: linear-gradient(to right, #fff, #f9f9f9);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #about::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://source.unsplash.com/random/1200x800?technology') no-repeat center center;
+            background-size: cover;
+            opacity: 0.2;
+            z-index: 0;
+        }
+
+        #about .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        #about h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #333;
+            position: relative;
+        }
+
+        #about p {
+            font-size: 1.2rem;
+            text-align: center justify;
+            color: #555;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 800px;
+        }
+
+        #about p::before {
+            content: "✦";
+            font-size: 2rem;
+            color: #333;
+            display: block;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #about p::after {
+            content: "✦";
+            font-size: 2rem;
+            color: #333;
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Projects Section */
+        #projects {
+            padding: 60px 20px;
+            background-color: #fff;
+        }
+
+        #projects h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .project-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+            /* Center-aligns project cards */
+        }
+
+        .project-card {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            align-content: center;
+        }
+
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-image img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .project-info {
+            flex: 1;
+        }
+
+        .project-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .project-info p {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+
+
+
+
+
+        /* Education Section */
+        #education {
+            padding: 60px 20px;
+            background-color: #f9f9f9;
+            overflow: hidden;
+        }
+
+        #education h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .education-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .education-card {
+            background-color: white;
+            /* Same color as the navigation bar */
+            color: #333;
+            /* Text color white */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            width: 80%;
+            max-width: 600px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .education-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .education-icon {
+            flex-shrink: 0;
+            width: 80px;
+            /* Increase the width */
+            height: 80px;
+            /* Increase the height */
+            margin-right: 20px;
+        }
+
+        .education-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .education-details {
+            flex: 1;
+        }
+
+        .education-details h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .education-details p {
+            font-size: 1.2rem;
+            color: #333;
+            /* White text color */
+        }
+
+
+
+        /* Skills Section */
+        #skills {
+            padding: 60px 20px;
+            background-color: #fff;
+        }
+
+        #skills h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-card {
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .skill-icon {
+            margin-bottom: 15px;
+        }
+
+        .skill-icon img {
+            width: 60px;
+            height: 60px;
+            transition: transform 0.3s ease;
+        }
+
+        .skill-icon img:hover {
+            transform: scale(1.1);
+        }
+
+        .skill-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .skill-info p {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.6;
+        }
+
+
+
+
+        /* Hobby Section Styling */
+        #hobbies {
+            padding: 60px 20px;
+            background-color: #f4f4f4;
+        }
+
+        #hobbies h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .hobby-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            width: 80%;
+            max-width: 600px;
+            margin: 0 auto;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hobby-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .hobby-icon {
+            flex-shrink: 0;
+            width: 80px;
+            height: 80px;
+            margin-right: 20px;
+        }
+
+        .hobby-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .hobby-info {
+            flex: 1;
+        }
+
+        .hobby-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .hobby-info p {
+            font-size: 1.2rem;
+            color: #666;
+            line-height: 1.6;
+        }
+
+
+        /* Hide navigation links on small screens and show hamburger menu */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hamburger-menu {
+                display: block;
+            }
+        }
+
+        .hamburger-menu {
+            display: none;
+            /* Style your hamburger menu here */
+        }
+
+
+
+
+
+
+        /* Medium screens (tablets) */
+        @media (min-width: 768px) {
+            .container {
+                width: 80%;
+            }
+
+            .nav-links {
+                justify-content: space-around;
+            }
+
+            .project-card,
+            .education-card,
+            .hobby-card {
+                width: 100%;
+                max-width: 600px;
+                /* Ensures cards don’t become too wide */
+            }
+        }
+
+        /* Small screens (phones) */
+        @media (max-width: 768px) {
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-links a {
+                padding: 10px;
+            }
+
+            .project-card,
+            .education-card,
+            .hobby-card {
+                width: 100%;
+            }
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav id="navbar">
+        <ul class="nav-links">
+            <li><a href="#about">About Me</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#education">Education</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#hobbies">Hobby</a></li>
+        </ul>
+    </nav>
+
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <div class="profile-pic">
+                <img src="https://media.licdn.com/dms/image/v2/D5603AQGeX1bDlPmBmw/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1707755069473?e=2147483647&v=beta&t=D_sOi9oEqVkdhhJp14HMw3rDR1dPYNW8NyT8UKjKn8k"
+                    alt="Arivaatral Profile Picture">
+            </div>
+            <div class="intro">
+                <h1>Arivaatral</h1>
+                <div class="social-links">
+                    <a href="https://github.com/arivaatral780" target="_blank">
+                        <img src="https://www.svgrepo.com/show/512317/github-142.svg" alt="GitHub Logo">
+                    </a>
+                    <a href="https://linkedin.com/in/arivaatral-k" target="_blank">
+                        <img src="https://www.svgrepo.com/show/354000/linkedin-icon.svg" alt="LinkedIn Logo">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h2>About Me</h2>
+            <p>I'm Arivaatral, currently pursuing my MTech in Computer Science and Engineering at IIITH, following my
+                undergraduate degree in B.E. CSE from Coimbatore Institute of Technology.With a solid foundation in both
+                academic and hands-on experience, I am well-versed in programming languages such as Python, C, HTML,
+                CSS, JavaScript, and SQL. I have expertise in using development tools like VS Code, PyCharm, and Android
+                Studio, along with a strong command of databases and frameworks including Linux, MongoDB, and MySQL.
+                My professional journey includes working as a Software Developer Trainee at AppViewX, where I
+                collaborated with a QA lead and development team to thoroughly test a major product release. During this
+                time, I identified and reported eight key issues, contributing to improving the product's quality.
+                Additionally, during an inplant training at Tekion Corp, I developed a Flutter mobile application for
+                contact management, integrating search and sorting functionalities using provided APIs.Through these
+                experiences, I have honed my ability to approach problem-solving methodically and work collaboratively
+                in teams. I am passionate about building efficient solutions and continuously expanding my skill set to
+                stay ahead in the fast-evolving tech landscape.</p>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="container">
+            <h2>Projects</h2>
+            <div class="project-list">
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="https://www.svgrepo.com/show/448644/terminal.svg" alt="POSIX Shell Implementation">
+                    </div>
+                    <div class="project-info">
+                        <h3>POSIX Shell Implementation</h3>
+                        <p>Developed a POSIX-compliant shell in C/C++ by implementing features such as command
+                            execution, process management, I/O redirection, piping and job control.</p>
+
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="https://www.svgrepo.com/show/307899/it-professional-programmer-it-professional.svg"
+                            alt="Emotion Monitoring System">
+                    </div>
+                    <div class="project-info">
+                        <h3>Emotion Monitoring System</h3>
+                        <p>A deep learning project focused on detecting emotions in IT employees to enhance workplace
+                            well-being.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <!-- Education Section -->
+    <section id="education">
+        <div class="container">
+            <h2>Education</h2>
+            <div class="education-cards">
+                <div class="education-card">
+                    <div class="education-icon">
+                        <img src="https://urjadaily.com/wp-content/uploads/2021/08/IIIT_Hyderabad_Logo.jpg"
+                            alt="University Icon">
+                    </div>
+                    <div class="education-details">
+                        <h3>IIIT Hyderabad </h3>
+                        <p>M.Tech CSE (2024 - present)</p>
+                    </div>
+                </div>
+                <div class="education-card">
+                    <div class="education-icon">
+                        <img src="https://www.reviewadda.com/assets/uploads/college/logo/LOGO_10451.png"
+                            alt="Education Icon">
+                    </div>
+                    <div class="education-details">
+                        <h3>Coimbatore Institute of Technology </h3>
+                        <p>B.E. CSE (2020 - 2024)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <div class="container">
+            <h2>Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <img src="https://www.svgrepo.com/show/376358/c-plus-plus.svg" alt="C++ Icon">
+                    </div>
+                    <div class="skill-info">
+                        <h3>C++</h3>
+                        <p>Proficient in object-oriented programming and system-level development.</p>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <img src="https://www.svgrepo.com/show/374016/python.svg" alt="Python Icon">
+                    </div>
+                    <div class="skill-info">
+                        <h3>Python</h3>
+                        <p>Experienced in scripting, data analysis, and web development.</p>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <img src="https://www.svgrepo.com/show/353478/bash-icon.svg" alt="Bash Icon">
+                    </div>
+                    <div class="skill-info">
+                        <h3>Bash</h3>
+                        <p>Skilled in writing scripts for automation and system management.</p>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <img src="https://www.svgrepo.com/show/452228/html-5.svg" alt="HTML Icon">
+                    </div>
+                    <div class="skill-info">
+                        <h3>HTML</h3>
+                        <p>Expert in creating structured and semantic web pages.</p>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <img src="https://www.svgrepo.com/show/353623/css-3.svg" alt="CSS Icon">
+                    </div>
+                    <div class="skill-info">
+                        <h3>CSS</h3>
+                        <p>Proficient in styling and designing visually appealing web pages.</p>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <img src="https://www.svgrepo.com/show/452045/js.svg" alt="JavaScript Icon">
+                    </div>
+                    <div class="skill-info">
+                        <h3>JavaScript</h3>
+                        <p>Experienced in creating interactive and dynamic web experiences.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Hobby Section -->
+    <section id="hobbies">
+        <div class="container">
+            <h2>Hobbies</h2>
+            <div class="hobby-card">
+                <div class="hobby-icon">
+                    <img src="https://www.svgrepo.com/show/405146/cricket-game.svg" alt="Cricket Icon">
+                </div>
+                <div class="hobby-info">
+                    <h3>Cricket</h3>
+                    <p>Passionate about cricket, enjoy playing and watching the game. Whether it's a casual weekend
+                        match or a thrilling international game, cricket is a big part of my life.</p>
+                </div>
+            </div>
+            <div class="hobby-card">
+                <div class="hobby-icon">
+                    <img src="https://www.svgrepo.com/show/480737/cycling-pictogram-1.svg" alt="Cycling Icon">
+                </div>
+                <div class="hobby-info">
+                    <h3>Cycling</h3>
+                    <p>Enjoy cycling as a way to stay active and explore the outdoors. It's a great way to clear my mind
+                        and appreciate nature while maintaining fitness.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+</body>
+
+</html>
